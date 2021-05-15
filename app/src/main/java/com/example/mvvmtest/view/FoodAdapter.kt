@@ -23,7 +23,6 @@ class FoodAdapter(internal var context: Context, internal var listOfFood: List<C
         holder.txtdescv.text = listOfFood.get(position).descripcion+"..."
         holder.txtPricev.text = listOfFood.get(position).precio.toString()
         holder.estrellas.rating = listOfFood.get(position).estrellas
-
     }
 
     override fun getItemCount(): Int {
@@ -32,7 +31,6 @@ class FoodAdapter(internal var context: Context, internal var listOfFood: List<C
 
 
     class MyViewHolder(itemView: View): RecyclerView.ViewHolder(itemView), View.OnClickListener{
-
         var txtnamev = itemView.findViewById(R.id.txtNombre) as TextView
         var txtdescv = itemView.findViewById(R.id.idDesc) as TextView
         var txtPricev = itemView.findViewById(R.id.idPrecio) as TextView

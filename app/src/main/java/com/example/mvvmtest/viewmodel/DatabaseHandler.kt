@@ -30,7 +30,7 @@ class DatabaseHandler (context: Context):  SQLiteOpenHelper(context, DATABASE_NA
                 "$KEY_STARS DECIMAL(1,1));")
 
         val INSERT_DATA = "INSERT INTO $TABLE_FOOD($KEY_NAME,$KEY_PRICE,$KEY_DESC,$KEY_IMG,$KEY_STARS) VALUES" +
-                " ('Lasaña',250,'es un tipo de pasta. Se suele servir en láminas superpuestas intercaladas con capas de ingredientes al gusto, más frecuentemente carne en salsa boloñesa y bechamel.','',4.0)," +
+                "('Lasaña',250,'es un tipo de pasta. Se suele servir en láminas superpuestas intercaladas con capas de ingredientes al gusto, más frecuentemente carne en salsa boloñesa y bechamel.','',4.0)," +
                 "('ALBÓNDIGAS DE PAVO',240,'Sorprende a tu familia con éstas ricas y saludables albóndigas de pollo con salsa de queso parmesano. La salsa esta hecha con Yoghurt FAGE Total® 0% que le aporta un delicioso sabor y una consistencia cremosa','',3.0)," +
                 "('PECHUGAS DE POLLO',210,'Esta rica salsa hará que cualquier pieza de pollo quede con una textura cremosa y sabor suculento.','',2.0)," +
                 "('ALMENDRADO',190,'Prepara esta salsa tersa, ideal para acompañar desde carne de cerdo hasta pollo. Este platillo clásico tan sabroso que dejará el plato más que limpio.','',3.5);"
@@ -49,18 +49,21 @@ class DatabaseHandler (context: Context):  SQLiteOpenHelper(context, DATABASE_NA
         val selectQuery = "SELECT * FROM $TABLE_FOOD"
         val db = this.readableDatabase
         var cursor: Cursor? = null
+
         try {
             cursor = db.rawQuery(selectQuery, null)
         }catch (e: SQLiteException){
             db.execSQL(selectQuery)
             return ArrayList()
         }
+
         var id: Int
         var name: String
         var precio: Float
         var descripcion: String
         var imagen: String
         var estrellas: Float
+
         if(cursor.moveToFirst()){
             do{
                 id = cursor.getInt(cursor.getColumnIndex("id"))
