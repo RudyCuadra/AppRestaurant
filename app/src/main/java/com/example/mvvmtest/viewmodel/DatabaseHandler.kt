@@ -30,10 +30,14 @@ class DatabaseHandler (context: Context):  SQLiteOpenHelper(context, DATABASE_NA
                 "$KEY_STARS DECIMAL(1,1));")
 
         val INSERT_DATA = "INSERT INTO $TABLE_FOOD($KEY_NAME,$KEY_PRICE,$KEY_DESC,$KEY_IMG,$KEY_STARS) VALUES" +
-                "('Lasaña',250,'es un tipo de pasta. Se suele servir en láminas superpuestas intercaladas con capas de ingredientes al gusto, más frecuentemente carne en salsa boloñesa y bechamel.','',4.0)," +
-                "('ALBÓNDIGAS DE PAVO',240,'Sorprende a tu familia con éstas ricas y saludables albóndigas de pollo con salsa de queso parmesano. La salsa esta hecha con Yoghurt FAGE Total® 0% que le aporta un delicioso sabor y una consistencia cremosa','',3.0)," +
-                "('PECHUGAS DE POLLO',210,'Esta rica salsa hará que cualquier pieza de pollo quede con una textura cremosa y sabor suculento.','',2.0)," +
-                "('ALMENDRADO',190,'Prepara esta salsa tersa, ideal para acompañar desde carne de cerdo hasta pollo. Este platillo clásico tan sabroso que dejará el plato más que limpio.','',3.5);"
+                "('LASAÑA',250,'es un tipo de pasta. Se suele servir en láminas superpuestas intercaladas con capas de ingredientes al gusto, más frecuentemente carne en salsa boloñesa y bechamel.','android.resource://com.example.mvvmtest/drawable/lasana',4.0)," +
+                "('ALBÓNDIGAS DE PAVO',240,'Sorprende a tu familia con éstas ricas y saludables albóndigas de pollo con salsa de queso parmesano. La salsa esta hecha con Yoghurt FAGE Total® 0% que le aporta un delicioso sabor y una consistencia cremosa','android.resource://com.example.mvvmtest/drawable/albondigas',3.0)," +
+                "('PECHUGAS DE POLLO',210,'Esta rica salsa hará que cualquier pieza de pollo quede con una textura cremosa y sabor suculento.','android.resource://com.example.mvvmtest/drawable/pechugas',2.0)," +
+                "('BURRITO NORTEÑO',190,'Prueba este rico burrito que aparte de sencillo les encantara a todo en casa, es una rica combinación de frijoles, carne asada, guacamole y una rica salsa de chile de árbol. No dejes de probarla.','android.resource://com.example.mvvmtest/drawable/burrito',3.5),"+
+                "('SALMÓN EN SALSA',230,'El cilantro le da un toque especial a uno de los pescados más ricos y saludables. ','android.resource://com.example.mvvmtest/drawable/salmon',5.0)," +
+                "('PULPO A LA MEXICANA',500,'Si se trata de llevarla a la playa con un solo bocado, puedes lograrlo con estas 3 recetas frescas y mexicanísimas.','android.resource://com.example.mvvmtest/drawable/pulpo',4.0)," +
+                "('POLLO RELLENO CON TOCINO',210,'Si de sabor se trata, este rico plato fuerte conquista hasta a la mamá más exigente. Lo mejor es que no tienes que ser un top chef para lograrlo.','android.resource://com.example.mvvmtest/drawable/tocino',2.0)," +
+                "('CHULETAS CON SALSA DE MOSTAZA',210,'Disfruta junto con ella de una salsa agridulce, que marida perfecto con la carne de cerdo. Satisfacción garantizada.','android.resource://com.example.mvvmtest/drawable/chuletas',3.0);"
 
         p0?.execSQL(CREATE_DATABASE_TABLE)
         p0?.execSQL(INSERT_DATA)
