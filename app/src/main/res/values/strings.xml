@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Food</string>
     <string name="titulo1">Menú</string>
+    <string name="desc_floaringAB">Boton para agregar nuevos registros</string>
 </resources>

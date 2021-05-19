@@ -1,5 +1,6 @@
 package com.example.mvvmtest.viewmodel
 
+import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
@@ -45,6 +46,24 @@ class DatabaseHandler (context: Context):  SQLiteOpenHelper(context, DATABASE_NA
 
     override fun onUpgrade(p0: SQLiteDatabase?, p1: Int, p2: Int) {
         TODO("Not yet implemented")
+    }
+
+    //Metodo para actualizar datos
+    fun updateFood(food: Comida):Int{
+        val db = this.writableDatabase
+        //content resolver - to map
+        val contentValues = ContentValues()
+        contentValues.put(KEY_NAME,food.name)
+        contentValues.put(KEY_PRICE,food.precio)
+        contentValues.put(KEY_DESC,food.descripcion)
+        //contentValues.put(KEY_IMG,food.imagen)
+        contentValues.put(KEY_STARS,food.estrellas)
+
+        //Actualizando registro
+        val success = db.update(TABLE_FOOD, contentValues,"id="+food.id,null)
+        // El segundo argumento es una cadena que contiene nullColumnHack
+        db.close() // Cerramos la conexion de la base de datos
+        return success
     }
 
     // método para leer datos

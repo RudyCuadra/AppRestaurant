@@ -28,7 +28,13 @@ class MainActivity : AppCompatActivity() {
         recyclerViewF = findViewById(R.id.rvfood) as RecyclerView
         txtTextoInit = findViewById(R.id.txtGreetngTime) as TextView
         txtTextoSecond = findViewById(R.id.txtGreetingSecond) as TextView
+
         viewModel.viewRecord(this,recyclerViewF,txtTextoInit,txtTextoSecond)
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        moveTaskToBack(true)
     }
 
 

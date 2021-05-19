@@ -7,6 +7,13 @@
     android:layout_height="wrap_content"
     android:background="#232228">
 
+    <TextView
+        android:id="@+id/txtID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        />
+
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="150dp"

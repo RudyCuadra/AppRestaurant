@@ -3,8 +3,13 @@ package com.example.mvvmtest.viewmodel
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
+import android.view.View
+import android.view.ViewGroup
+import android.view.Window
+import android.widget.EditText
 import android.widget.ListView
 import android.widget.TextView
 import android.widget.Toast
@@ -13,8 +18,11 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.mvvmtest.R
 import com.example.mvvmtest.model.Comida
+import com.example.mvvmtest.view.Contentfood
 import com.example.mvvmtest.view.FoodAdapter
+import com.example.mvvmtest.view.MainActivity
 import java.io.File
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
@@ -53,6 +61,39 @@ class DataViewModel():ViewModel() {
         recyclerFood.adapter = foodAdapter
     }
 
+    fun updateRecord(context: Context,view:Activity, id: String, imagen: String){
+        val edNombre = view.findViewById(R.id.edNombre) as EditText
+        val edDesc = view.findViewById<EditText>(R.id.edDesc)
+        val edPrec = view.findViewById<EditText>(R.id.edPrecio)
+        val edCantE= view.findViewById<EditText>(R.id.edEst)
+
+        val nombre = edNombre.text.toString()
+        val descripcion = edDesc.text.toString()
+        val precio = edPrec.text.toString()
+        val estrells = edCantE.text.toString()
+
+        // creando la instancia de la clase DatabaseHandler
+        val databaseHandler: DatabaseHandler = DatabaseHandler(context)
+        if(nombre.trim()!="" && descripcion.trim()!="" && precio.trim()!="" && estrells.trim()!=""){
+            // llamando al método updateEmployee de la clase DatabaseHandler para actualizar el registro
+            val status = databaseHandler.updateFood(Comida(id.toInt(),nombre, precio.toFloat(),descripcion,imagen,estrells.toFloat()))
+            if(status > -1){
+                Toast.makeText(context,"Registro Actualizado", Toast.LENGTH_LONG).show()
+
+                val intent = Intent(context, MainActivity::class.java)
+                view.finish()
+                view.startActivity(intent)
+                //context.startActivity(intent)
+            }
+        }else{
+            Toast.makeText(context,"Llene todos los campos", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    fun loadData(context: Context, view: View){
+
+    }
+
     @SuppressLint("SimpleDateFormat", "NewApi")
     fun loadGreetings(context: Context, texto1:TextView, texto2:TextView){
         val current = LocalDateTime.now()
@@ -60,10 +101,10 @@ class DataViewModel():ViewModel() {
         val formatted = current.format(formatter)
         //Toast.makeText(context, "HORA: $formatted",Toast.LENGTH_LONG).show()
 
-        if(formatted.toInt()<=12){
+        if(formatted.toInt()<=11){
             texto1.text = "Buenos días"
             texto2.text = "Es hora de un buen desayuno"
-        }else if(formatted.toInt()<=18){
+        }else if(formatted.toInt()<=17){
             texto1.text = "Buenas Tardes"
             texto2.text = "Es hora de un buen almuerzo"
         }else if(formatted.toInt()<=24){
@@ -81,4 +122,6 @@ class DataViewModel():ViewModel() {
             Uri.parse("android.resource://com.example.mvvmtest/drawable/unnamed")
         }
     }
+
+
 }
