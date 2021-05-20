@@ -15,7 +15,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MVVMTest">
-        <activity android:name=".view.Contentfood"></activity>
+        <activity android:name=".view.Moreinfo"></activity>
+        <activity android:name=".view.Contentfood" />
         <activity
             android:name=".view.MainActivity"
             android:theme="@style/Theme.MVVMTest.FullSceen">

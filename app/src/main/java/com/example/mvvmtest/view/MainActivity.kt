@@ -2,6 +2,7 @@ package com.example.mvvmtest.view
 
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mvvmtest.R
 import com.example.mvvmtest.viewmodel.DataViewModel
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MainActivity : AppCompatActivity() {
 
@@ -18,6 +20,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var recyclerViewF: RecyclerView
     lateinit var txtTextoInit: TextView
     lateinit var txtTextoSecond: TextView
+    lateinit var btnFloatingActionButton: FloatingActionButton
 
     @SuppressLint("ResourceType")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,8 +31,15 @@ class MainActivity : AppCompatActivity() {
         recyclerViewF = findViewById(R.id.rvfood) as RecyclerView
         txtTextoInit = findViewById(R.id.txtGreetngTime) as TextView
         txtTextoSecond = findViewById(R.id.txtGreetingSecond) as TextView
+        btnFloatingActionButton = findViewById(R.id.btnFab) as FloatingActionButton
 
         viewModel.viewRecord(this,recyclerViewF,txtTextoInit,txtTextoSecond)
+
+        btnFloatingActionButton.setOnClickListener {
+            val intent = Intent(this,Contentfood::class.java)
+            intent.putExtra("Activity","NEW")
+            startActivity(intent)
+        }
     }
 
     override fun onBackPressed() {

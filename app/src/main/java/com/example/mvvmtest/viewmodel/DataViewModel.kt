@@ -31,7 +31,7 @@ import java.util.*
 
 class DataViewModel():ViewModel() {
 
-
+    //Funcion para ver registros
     fun viewRecord(context: Context, recyclerFood: RecyclerView,textView1: TextView,textView2: TextView){
 
         loadGreetings(context,textView1,textView2)
@@ -61,6 +61,35 @@ class DataViewModel():ViewModel() {
         recyclerFood.adapter = foodAdapter
     }
 
+    //Funcion para añadir un nuevo registro
+    fun addRecord(context: Context,view:Activity,imagen: String){
+        val edNombre = view.findViewById(R.id.edNombre) as EditText
+        val edDesc = view.findViewById<EditText>(R.id.edDesc)
+        val edPrec = view.findViewById<EditText>(R.id.edPrecio)
+        val edCantE= view.findViewById<EditText>(R.id.edEst)
+
+        val nombre = edNombre.text.toString()
+        val descripcion = edDesc.text.toString()
+        val precio = edPrec.text.toString()
+        val estrells = edCantE.text.toString()
+
+        // creando la instancia de la clase DatabaseHandler
+        val databaseHandler: DatabaseHandler = DatabaseHandler(context)
+        if(nombre.trim()!="" && descripcion.trim()!="" && precio.trim()!="" && estrells.trim()!=""){
+            // llamando al método addFood de la clase DatabaseHandler para insertar el registro
+            val status = databaseHandler.addFood(Comida(-1,nombre, precio.toFloat(),descripcion,imagen,estrells.toFloat()))
+            if(status>-1){
+                Toast.makeText(context,"Registro Insertado", Toast.LENGTH_LONG).show()
+                val intent = Intent(context, MainActivity::class.java)
+                view.finish()
+                view.startActivity(intent)
+            }
+        }else{
+            -1
+        }
+    }
+
+    //Funcion para actualizar registro
     fun updateRecord(context: Context,view:Activity, id: String, imagen: String){
         val edNombre = view.findViewById(R.id.edNombre) as EditText
         val edDesc = view.findViewById<EditText>(R.id.edDesc)
@@ -90,10 +119,17 @@ class DataViewModel():ViewModel() {
         }
     }
 
-    fun loadData(context: Context, view: View){
-
+    //Funcion para buscar imagen en galeria del celular
+    fun loadImageGallery(activity: Activity, code: Int=100){
+        ///Creamos una instancia del objeto Intent
+        val intent = Intent(Intent.ACTION_PICK)
+        ///asignamos el tipo de la variable, pasandole un string el cúal reconoce una imagen.
+        intent.type = "image/*"
+        ///en la actividad pasamos como parametros el code, y el intent
+        activity.startActivityForResult(intent, code)
     }
 
+    //Funcion para cargar saludo principal
     @SuppressLint("SimpleDateFormat", "NewApi")
     fun loadGreetings(context: Context, texto1:TextView, texto2:TextView){
         val current = LocalDateTime.now()
@@ -110,16 +146,6 @@ class DataViewModel():ViewModel() {
         }else if(formatted.toInt()<=24){
             texto1.text = "Buenas Noches"
             texto2.text = "Es hora de una buena cena"
-        }
-    }
-
-    fun openImage(context: Context, id: Long): Uri{
-        val file = File(context.filesDir, id.toString())
-
-        return if(file.exists()){
-            Uri.fromFile(file)
-        }else{
-            Uri.parse("android.resource://com.example.mvvmtest/drawable/unnamed")
         }
     }
 

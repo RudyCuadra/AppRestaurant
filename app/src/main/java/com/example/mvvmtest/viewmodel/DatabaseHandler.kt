@@ -48,6 +48,22 @@ class DatabaseHandler (context: Context):  SQLiteOpenHelper(context, DATABASE_NA
         TODO("Not yet implemented")
     }
 
+    //Metodo para insertar datos
+    fun addFood(food: Comida): Long{
+        val db = this.writableDatabase
+        //content resolver - to map
+        val contentValues = ContentValues()
+        contentValues.put(KEY_NAME,food.name)
+        contentValues.put(KEY_PRICE,food.precio)
+        contentValues.put(KEY_DESC,food.descripcion)
+        contentValues.put(KEY_IMG,food.imagen)
+        contentValues.put(KEY_STARS,food.estrellas)
+
+        val success = db.insert(TABLE_FOOD, null, contentValues)
+        db.close()
+        return success
+    }
+
     //Metodo para actualizar datos
     fun updateFood(food: Comida):Int{
         val db = this.writableDatabase
@@ -56,7 +72,7 @@ class DatabaseHandler (context: Context):  SQLiteOpenHelper(context, DATABASE_NA
         contentValues.put(KEY_NAME,food.name)
         contentValues.put(KEY_PRICE,food.precio)
         contentValues.put(KEY_DESC,food.descripcion)
-        //contentValues.put(KEY_IMG,food.imagen)
+        contentValues.put(KEY_IMG,food.imagen)
         contentValues.put(KEY_STARS,food.estrellas)
 
         //Actualizando registro

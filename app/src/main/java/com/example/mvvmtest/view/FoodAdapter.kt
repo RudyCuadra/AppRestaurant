@@ -36,13 +36,21 @@ class FoodAdapter(internal var context: Context, internal var listOfFood: List<C
 
         holder.setClick(object:IRecyclerClick{
             override fun onClick(view: View, position: Int) {
-                //Toast.makeText(context,"Fila: #$position seleccionada", Toast.LENGTH_SHORT).show()
+                TODO("Not yet implemented")
             }
         })
+
+        holder.itemView.setOnLongClickListener {
+            Toast.makeText(context,"Click largo", Toast.LENGTH_LONG).show()
+            true
+        }
+
+
 
         holder.EditF.setOnClickListener {
             //Toast.makeText(context,"Click en EDITAR", Toast.LENGTH_SHORT).show()
             val intent = Intent(context,Contentfood::class.java)
+            intent.putExtra("Activity","UPDATE")
             intent.putExtra("nombre",listOfFood[position].name)
             intent.putExtra("Descripcion",listOfFood[position].descripcion)
             intent.putExtra("Precio",listOfFood[position].precio)
@@ -53,7 +61,14 @@ class FoodAdapter(internal var context: Context, internal var listOfFood: List<C
         }
 
         holder.vMas.setOnClickListener{
-            //Toast.makeText(context,"Click en VER MÁS", Toast.LENGTH_SHORT).show()
+            val intent = Intent(context,Moreinfo::class.java)
+            intent.putExtra("nombre",listOfFood[position].name)
+            intent.putExtra("Descripcion",listOfFood[position].descripcion)
+            intent.putExtra("Precio",listOfFood[position].precio)
+            intent.putExtra("cantEst",listOfFood[position].estrellas)
+            intent.putExtra("id",listOfFood[position].id.toString())
+            intent.putExtra("imagenurl",listOfFood[position].imagen)
+            context.startActivity(intent)
         }
     }
 
