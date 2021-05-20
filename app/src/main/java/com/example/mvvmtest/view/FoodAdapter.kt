@@ -36,13 +36,13 @@ class FoodAdapter(internal var context: Context, internal var listOfFood: List<C
 
         holder.setClick(object:IRecyclerClick{
             override fun onClick(view: View, position: Int) {
-                TODO("Not yet implemented")
+               //NOTHING
             }
         })
 
         holder.itemView.setOnLongClickListener {
             Toast.makeText(context,"Click largo", Toast.LENGTH_LONG).show()
-            true
+            false
         }
 
 
