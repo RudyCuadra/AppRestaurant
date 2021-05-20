@@ -32,9 +32,11 @@ class Contentfood : AppCompatActivity() {
         save = findViewById<Button>(R.id.btnGuardar)
         changeImg = findViewById<TextView>(R.id.txtCambiarI)
         img = findViewById<ImageView>(R.id.imgFood)
+        val tituloView = findViewById<TextView>(R.id.txtTitulo)
 
         if(activityPrevious=="NEW"){
             changeImg.text = "Añadir imagen"
+            tituloView.text = "Nueva Comida"
         }else if(activityPrevious=="UPDATE"){
             idF = intent.getStringExtra("id").toString()
             val nombre = intent.getStringExtra("nombre")

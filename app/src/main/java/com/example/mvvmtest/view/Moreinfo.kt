@@ -10,11 +10,12 @@ import android.widget.TextView
 import androidx.lifecycle.ViewModelProviders
 import com.example.mvvmtest.R
 import com.example.mvvmtest.viewmodel.DataViewModel
+import de.hdodenhof.circleimageview.CircleImageView
 
 class Moreinfo : AppCompatActivity() {
 
     lateinit var viewModel: DataViewModel
-    lateinit var img: ImageView
+    lateinit var img: CircleImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,7 +33,7 @@ class Moreinfo : AppCompatActivity() {
         val txtDesc = findViewById<TextView>(R.id.txtDescripcion)
         val rating = findViewById<RatingBar>(R.id.RatingMore)
         val txtPrecio = findViewById<TextView>(R.id.txtPrecio)
-        img = findViewById<ImageView>(R.id.imgMoreInfo)
+        img = findViewById<CircleImageView>(R.id.imgMoreInfo)
 
         txtNombre.setText(nombre)
         txtDesc.setText(descripcion)

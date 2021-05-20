@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
@@ -130,23 +131,31 @@ class DataViewModel():ViewModel() {
     }
 
     //Funcion para cargar saludo principal
-    @SuppressLint("SimpleDateFormat", "NewApi")
-    fun loadGreetings(context: Context, texto1:TextView, texto2:TextView){
-        val current = LocalDateTime.now()
-        val formatter = DateTimeFormatter.ofPattern("HH")
-        val formatted = current.format(formatter)
-        //Toast.makeText(context, "HORA: $formatted",Toast.LENGTH_LONG).show()
 
-        if(formatted.toInt()<=11){
-            texto1.text = "Buenos días"
-            texto2.text = "Es hora de un buen desayuno"
-        }else if(formatted.toInt()<=17){
-            texto1.text = "Buenas Tardes"
-            texto2.text = "Es hora de un buen almuerzo"
-        }else if(formatted.toInt()<=24){
-            texto1.text = "Buenas Noches"
-            texto2.text = "Es hora de una buena cena"
+    fun loadGreetings(context: Context, texto1:TextView, texto2:TextView){
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val current = LocalDateTime.now()
+            val formatter = DateTimeFormatter.ofPattern("HH")
+            val formatted = current.format(formatter)
+            //Toast.makeText(context, "HORA: $formatted",Toast.LENGTH_LONG).show()
+
+            if(formatted.toInt()<=11){
+                texto1.text = "Buenos días"
+                texto2.text = "Es hora de un buen desayuno"
+            }else if(formatted.toInt()<=17){
+                texto1.text = "Buenas Tardes"
+                texto2.text = "Es hora de un buen almuerzo"
+            }else if(formatted.toInt()<=24){
+                texto1.text = "Buenas Noches"
+                texto2.text = "Es hora de una buena cena"
+            }
+        }else{
+            texto1.text = "Saludos!"
+            texto2.text = "Es hora de una buena comida"
         }
+
+
     }
 
 
