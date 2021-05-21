@@ -1,6 +1,6 @@
 package com.example.mvvmtest.view
 
-import android.app.Activity
+
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -10,26 +10,32 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.RatingBar
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.widget.AppCompatImageView
-import androidx.core.content.ContextCompat.startActivity
+import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mvvmtest.R
 import com.example.mvvmtest.model.Comida
 import com.example.mvvmtest.view.interfaces.IRecyclerClick
+import com.example.mvvmtest.viewmodel.DataViewModel
 
-class FoodAdapter(internal var context: Context, internal var listOfFood: List<Comida>):
+class FoodAdapter(internal var context: Context, internal var listOfFood: List<Comida>, recyclerViewF: RecyclerView):
     RecyclerView.Adapter<FoodAdapter.MyViewHolder>() {
+
+    lateinit var viewModel: DataViewModel
+    var recyclerViewFF = recyclerViewF
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val v = LayoutInflater.from(context).inflate(R.layout.item_food, parent, false)
+        viewModel = ViewModelProviders.of(context as FragmentActivity).get(DataViewModel::class.java)
         return MyViewHolder(v)
     }
+
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.txtidf.text = listOfFood.get(position).id.toString()
         holder.txtnamev.text = listOfFood.get(position).name
-        holder.txtdescv.text = listOfFood.get(position).descripcion+"..."
+        holder.txtdescv.text = listOfFood.get(position).descripcion
         holder.txtPricev.text = listOfFood.get(position).precio.toString()
         holder.estrellas.rating = listOfFood.get(position).estrellas
         holder.imag.setImageURI(Uri.parse(listOfFood.get(position).imagen))
@@ -41,7 +47,8 @@ class FoodAdapter(internal var context: Context, internal var listOfFood: List<C
         })
 
         holder.itemView.setOnLongClickListener {
-            Toast.makeText(context,"Click largo", Toast.LENGTH_LONG).show()
+            //Toast.makeText(context,"Click largo", Toast.LENGTH_LONG).show()
+            viewModel.deleteRecord(context, listOfFood.get(position).id.toString(), this@FoodAdapter, position,recyclerViewFF)
             false
         }
 

@@ -3,10 +3,12 @@ package com.example.mvvmtest.viewmodel
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
@@ -14,6 +16,7 @@ import android.widget.EditText
 import android.widget.ListView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModel
@@ -29,8 +32,11 @@ import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
+import kotlin.properties.Delegates
 
 class DataViewModel():ViewModel() {
+
+
 
     //Funcion para ver registros
     fun viewRecord(context: Context, recyclerFood: RecyclerView,textView1: TextView,textView2: TextView){
@@ -54,7 +60,7 @@ class DataViewModel():ViewModel() {
         //llamar al método viewEmployee de la clase DatabaseHandler para leer los registros
         val food: List<Comida> = databaseHandler.viewFoods()
         //creando RecyclerView personalizado
-        val foodAdapter = FoodAdapter(context as Activity, food)
+        val foodAdapter = FoodAdapter(context as Activity, food,recyclerFood)
         recyclerFood.layoutManager = LinearLayoutManager(context)
         recyclerFood.isHorizontalScrollBarEnabled
         recyclerFood.isVerticalScrollBarEnabled
@@ -131,7 +137,6 @@ class DataViewModel():ViewModel() {
     }
 
     //Funcion para cargar saludo principal
-
     fun loadGreetings(context: Context, texto1:TextView, texto2:TextView){
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -158,5 +163,44 @@ class DataViewModel():ViewModel() {
 
     }
 
+    //Funcion para eliminar registro basado en ID
+    fun deleteRecord(context: Context, id:String, foodAdapter: FoodAdapter, position: Int,recyclerFood: RecyclerView ){
+        var status by Delegates.notNull<Int>()
+        val dialogBuilder = AlertDialog.Builder(context)
+        val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val dialogView = inflater.inflate(R.layout.delete_dialog, null)
+        dialogBuilder.setView(dialogView)
+        dialogBuilder.setTitle("¿Desea eliminar esta comida?")
 
+        dialogBuilder.setPositiveButton("Eliminar", DialogInterface.OnClickListener { _, _ ->
+
+            //creating the instance of DatabaseHandler class
+            val databaseHandler: DatabaseHandler= DatabaseHandler(context)
+            if(id.trim()!=""){
+                //calling the deleteEmployee method of DatabaseHandler class to delete record
+                status = databaseHandler.deleteFood(Comida(id.toInt(),"",0.0F,"","",0.0F))
+                if(status > -1){
+                    Toast.makeText(context,"Eliminado", Toast.LENGTH_LONG).show()
+
+                    //llamar al método viewEmployee de la clase DatabaseHandler para leer los registros
+                    val food: List<Comida> = databaseHandler.viewFoods()
+                    //creando RecyclerView personalizado
+                    val foodAdapter = FoodAdapter(context as Activity, food, recyclerFood)
+                    recyclerFood.layoutManager = LinearLayoutManager(context)
+                    recyclerFood.isHorizontalScrollBarEnabled
+                    recyclerFood.isVerticalScrollBarEnabled
+                    recyclerFood.setHasFixedSize(true)
+                    recyclerFood.adapter = foodAdapter
+                }
+            }else{
+                Toast.makeText(context,"Sin referencia de registro a eliminar", Toast.LENGTH_LONG).show()
+            }
+        })
+
+        dialogBuilder.setNegativeButton("Cancelar", DialogInterface.OnClickListener { _, _ ->
+            //pass
+        })
+        val b = dialogBuilder.create()
+        b.show()
+    }
 }

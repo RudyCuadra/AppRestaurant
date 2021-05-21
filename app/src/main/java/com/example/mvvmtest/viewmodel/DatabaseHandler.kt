@@ -119,4 +119,15 @@ class DatabaseHandler (context: Context):  SQLiteOpenHelper(context, DATABASE_NA
         return foodList
     }
 
+    //metodo para eliminar registro
+    fun deleteFood(food: Comida): Int{
+        val db = this.writableDatabase
+        val contentValues = ContentValues()
+        contentValues.put(KEY_ID, food.id)
+        //Eliminando registro
+        val sucess = db.delete(TABLE_FOOD, "id="+food.id, null)
+        db.close()
+        return sucess
+    }
+
 }
